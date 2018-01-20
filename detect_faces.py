@@ -29,7 +29,7 @@ subscription_key = 'a10e9f8e5439422489de6f3b1f8fad9c'
 url = 'https://api.projectoxford.ai/face/v1.0/detect'
 
 # Gets the binary file data so we can send it to MCS
-data = open('file:///C:\Users\Theodore\Desktop\obama.jpg', 'rb')
+data = open('', 'rb')
 requests.post(url, headers=headers, data=data)
 
 uri_base = 'https://westcentralus.api.cognitive.microsoft.com'
