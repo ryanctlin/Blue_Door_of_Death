@@ -51,15 +51,19 @@ def verify(temp1, user_address, timelimit, startTime): #import timestamp
     transactid = []
     senderlist = []
     timestamp = []
-    for item in temp1[1]:
-        #print(item['senderId'])
-        transactid.append(item['id'])
-        senderlist.append(item['senderId'])
-        timestamp.append(item['timestamp'])
+    try:
+        for item in temp1[1]:
+            #print(item['senderId'])
+            transactid.append(item['id'])
+            senderlist.append(item['senderId'])
+            timestamp.append(item['timestamp'])
 
-    #print(transactid)
-    #print(senderlist)
-    #print(timestamp)
+        #print(transactid)
+        #print(senderlist)
+        #print(timestamp)
+
+    except(IndexError):
+        return 3 #deny access immediately
 
     #Check if any of the transactions were sent by user
     lastIndex = -1
@@ -69,7 +73,7 @@ def verify(temp1, user_address, timelimit, startTime): #import timestamp
 
     #If lastIndex was not overwritten with final transaction from user, i.e. there was no transaction
     if lastIndex == -1:
-        return False #deny access
+        return 3 #deny access immediately
 
     #Check for time elapsed
     lastTime = timestamp[lastIndex]
@@ -84,8 +88,9 @@ def verify(temp1, user_address, timelimit, startTime): #import timestamp
 
 #--------------------Door Blockchain Function------------------------------------
 def door02(Auth):
+    print('Awaiting transaction confirmation...')
     timelimit = 1800
-    countdown = 18
+    countdown = 60
     door_address = 'DHkEspm6H1XVwqajxDwQa99fYERMxw4w3R'
     #user_address = 'DLf7YJA68w5bSX781HjqszxkfkQzEGAB8m'
     user_address = Auth
@@ -114,13 +119,16 @@ def door02(Auth):
 
         #Check decision
         if result == True:
-            print("WELCOME!")
+            print("ACCESS GRANTED: WELCOME!")
             return True
+        elif result == 3:
+            print("ACCESS DENIED: AUTHENTICATION FAILED")
+            return False
 
-        time.sleep(10)
+        time.sleep(3)
         countdown-= 1
 
-    print("ACCESS DENIED") #will only activate if timer elapses
+    print("ACCESS DENIED: AUTHENTICATION FAILED") #will only activate if timer elapses
 
 
 #----------------Main Function-----------------
@@ -130,4 +138,7 @@ person = facerec()
 #Authorised Accounts
 Auth = {'Theo': 'DLf7YJA68w5bSX781HjqszxkfkQzEGAB8m'}
 
-door02(Auth[person])
+try:
+    door02(Auth[person])
+except(KeyError):
+    print('ACCESSED DENIED: UNAUTHORISED USER')
