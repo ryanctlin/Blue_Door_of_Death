@@ -136,7 +136,7 @@ while(True):
         #capture the frame containing that face and store it locally
         cv2.imwrite('face.jpg',frame)
         #convert that .jpg image into binary data
-        pathToFileInDisk = r'C:\Users\Theodore\Desktop\face.jpg'
+        pathToFileInDisk = r'face.jpg'
         with open( pathToFileInDisk, 'rb' ) as targetImg:
             faceData = targetImg.read()
         #parse the image data into the getResult function and print the result

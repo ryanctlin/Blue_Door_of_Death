@@ -31,8 +31,8 @@ while(True):
          roi_gray = gray[y:y+h, x:x+w]
          roi_color = frame[y:y+h, x:x+w]
 
-    cv2.imshow('frame',frame)
-    
+    #cv2.imshow('FacialRec',frame)
+    cv2.imwrite("siteIMG.jpg",frame)
 
     if cv2.waitKey(1)==27:
         break
