@@ -117,7 +117,7 @@ def getResult(data = None):
 
 def facerec():
     #create a CV2 face cascade used to detect faces in an image
-    face_cascade = cv2.CascadeClassifier('C:\\Users\\Theodore\\Anaconda3\\pkgs\\opencv-3.3.1-py36h20b85fd_1\\Library\\etc\\haarcascades\\haarcascade_frontalface_default.xml')
+    face_cascade = cv2.CascadeClassifier('D:\\Programs\\Miniconda\\envs\\hackcam_01\\Library\\etc\\haarcascades\\haarcascade_frontalface_default.xml')
 
     #continiously read the frames
     while(True):
@@ -137,14 +137,16 @@ def facerec():
             #capture the frame containing that face and store it locally
             cv2.imwrite('face.jpg',frame)
             #convert that .jpg image into binary data
-            pathToFileInDisk = r'C:\Users\Theodore\Desktop\Hackathons\hack-cambridge-2018\Facial_recognition\face.jpg'
+            pathToFileInDisk = r'D:\Git Repo\Hack Cambridge\test01\face.jpg'
             with open( pathToFileInDisk, 'rb' ) as targetImg:
                 faceData = targetImg.read()
             #parse the image data into the getResult function and print the result
             result = getResult(faceData)
             print(result)
-            #exit the loop (stop capturing)
             break
+            #exit the loop (stop capturing)
+        # if cv2.waitKey(1) == 27:
+        #     break
 
 
     # When everything done, release the capture
