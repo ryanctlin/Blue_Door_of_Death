@@ -1,9 +1,8 @@
 from park.park import Park
 import time
+from FacialRecognition import facerec
 #from user02 import user02
 
-#----------------Authorised Accounts-------------------------
-Auth01 = ['Theo', 'DLf7YJA68w5bSX781HjqszxkfkQzEGAB8m']
 
 #-------------Function defintions----------------------------------------
 
@@ -21,7 +20,7 @@ def clockInit():
     timeblock = park.blocks().blocks({'height': height})
     blocks = timeblock['blocks'][0]
     startTime = blocks['timestamp']
-    print(startTime)
+    #print(startTime)
 
     return startTime
 
@@ -38,7 +37,7 @@ def getquery(door_address):
     #query = park.transactions().transactions({'recipientId': 'DHkEspm6H1XVwqajxDwQa99fYERMxw4w3R'})
 
     info = park.accounts().account(address= door_address) #set door address for park
-    query = park.transactions().transactions({'recipientId': door_address}) #find all transactions with door address as recipient
+    query = park.transactions().transactions({'recipientId': door_address, 'orderBy': 'timestamp:DESC'}) #find all transactions with door address as recipient
 
     #Extract information from query
     temp1 = []
@@ -74,22 +73,22 @@ def verify(temp1, user_address, timelimit, startTime): #import timestamp
 
     #Check for time elapsed
     lastTime = timestamp[lastIndex]
-    print(lastTime)
-    print(transactid[lastIndex])
+    #print(lastTime)
+    #print(transactid[lastIndex])
 
-    print(lastTime-startTime)
+    #print(lastTime-startTime)
     if (lastTime-startTime) < timelimit and (lastTime-startTime) >= 0:
         return True
     else:
         return False
 
-#--------------------Main Function------------------------------------
+#--------------------Door Blockchain Function------------------------------------
 def door02(Auth):
     timelimit = 1800
     countdown = 18
     door_address = 'DHkEspm6H1XVwqajxDwQa99fYERMxw4w3R'
     #user_address = 'DLf7YJA68w5bSX781HjqszxkfkQzEGAB8m'
-    user_address = Auth[1]
+    user_address = Auth
     #print(user_address)
 
     #Query and verification
@@ -100,27 +99,35 @@ def door02(Auth):
 
     temp1 = getquery(door_address=door_address)
     result = verify(temp1=temp1, user_address=user_address, timelimit=timelimit, startTime=startTime)
-    print(result)
+    #print(result)
 
     #Check decision
-    if result == True:
-        print("WELCOME!")
-        return True
+    # if result == True:
+    #     print("WELCOME!")
+    #     return True
     #-------------------
 
-    # while countdown > 0:
-    #     temp1 = getquery(door_address = door_address)
-    #     result = verify(temp1=temp1, user_address=user_address, timelimit=timelimit, startTime=startTime)
-    #     print(result)
-    #
-    #     #Check decision
-    #     if result == True:
-    #         print("WELCOME!")
-    #         return True
-    #
-    #     time.sleep(10)
-    #     countdown-= 1
+    while countdown > 0:
+        temp1 = getquery(door_address = door_address)
+        result = verify(temp1=temp1, user_address=user_address, timelimit=timelimit, startTime=startTime)
+        #print(result)
+
+        #Check decision
+        if result == True:
+            print("WELCOME!")
+            return True
+
+        time.sleep(10)
+        countdown-= 1
 
     print("ACCESS DENIED") #will only activate if timer elapses
 
-door02(Auth01)
+
+#----------------Main Function-----------------
+person = facerec()
+#print(person)
+
+#Authorised Accounts
+Auth = {'Theo': 'DLf7YJA68w5bSX781HjqszxkfkQzEGAB8m'}
+
+door02(Auth[person])

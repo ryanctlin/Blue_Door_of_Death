@@ -6,7 +6,7 @@ cap.set(4, 480) #HEIGHT
 
 
 
-face_cascade = cv2.CascadeClassifier('C:\\Users\\Theodore\\Anaconda3\\pkgs\\opencv-3.3.1-py36h20b85fd_1\\Library\\etc\\haarcascades\\haarcascade_frontalface_default.xml')
+face_cascade = cv2.CascadeClassifier('D:\\Programs\\Miniconda\\envs\\hackcam_01\\Library\\etc\\haarcascades\\haarcascade_frontalface_default.xml')
 
 while(True):
 
